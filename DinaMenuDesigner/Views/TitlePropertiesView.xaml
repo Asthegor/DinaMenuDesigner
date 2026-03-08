@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="DinaMenuDesigner.Views.TitlePropertiesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DinaMenuDesigner.Views"
+             xmlns:common="clr-namespace:DinaMenuDesigner.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <common:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Propriétés du titre"
+                   Foreground="White"
+                   FontWeight="Bold"
+                   Margin="0,0,0,8"/>
+
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="8">
+                <local:PropertyRowView Label="Texte" Value="{Binding Content, Mode=TwoWay}"/>
+
+                <local:PropertyRowView Label="Position X" Value="{Binding PositionX, Mode=TwoWay}"/>
+                <local:PropertyRowView Label="Position Y" Value="{Binding PositionY, Mode=TwoWay}"/>
+
+                <local:PropertyRowView Label="Police" Value="{Binding PlaceholderFont, Mode=TwoWay}"/>
+                <local:PropertyRowView Label="Taille Police" Value="{Binding FontSize, Mode=TwoWay}"/>
+
+                <local:ColorPickerView SelectedColor="{Binding Color, Mode=TwoWay}"/>
+                <!--<local:PropertyRowView Label="Couleur" Value="{Binding Color, Mode=TwoWay}"/>-->
+                <local:PropertyRowView Label="ZOrder" Value="{Binding ZOrder, Mode=TwoWay}"/>
+                
+
+                <CheckBox Content="Visible"
+                          Foreground="White"
+                          IsChecked="{Binding Visible, Mode=TwoWay}"
+                          Margin="0,0,0,6"/>
+
+                <!-- Ombre du titre -->
+                <CheckBox Content="Ombre"
+                          Foreground="White"
+                          IsChecked="{Binding HasShadow, Mode=TwoWay}"
+                          Margin="0,0,0,6"/>
+
+                <local:PropertyRowView Label="Couleur de l'ombre"
+                                       Value="{Binding ShadowColor, Mode=TwoWay}"
+                                       Visibility="{Binding HasShadow, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <local:PropertyRowView Label="Décalage ombre X"
+                                       Value="{Binding ShadowOffsetX, Mode=TwoWay}"
+                                       Visibility="{Binding HasShadow, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <local:PropertyRowView Label="Décalage ombre Y"
+                                       Value="{Binding ShadowOffsetY, Mode=TwoWay}"
+                                       Visibility="{Binding HasShadow, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
