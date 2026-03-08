@@ -1,15 +1,21 @@
 ﻿using DinaMenuDesigner.Commands;
 using DinaMenuDesigner.Common;
 using DinaMenuDesigner.Models;
+using DinaMenuDesigner.Services;
 
+using System.IO;
+using System.Text.Json;
 using System.Windows.Input;
 
 namespace DinaMenuDesigner.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
-        public MainViewModel()
+        private IFileDialogService _fileDialogService;
+        public MainViewModel(IFileDialogService? fileDialogService = null)
         {
+            _fileDialogService = fileDialogService ?? new FileDialogService();
+
             MenuManager = new MenuManagerModel();
             SelectedTitle = null;
             SelectedItem = null;
@@ -23,6 +29,9 @@ namespace DinaMenuDesigner.ViewModels
             RemoveItemCommand = new RelayCommand(param => RemoveItem(param));
             MoveItemUpCommand = new RelayCommand(param => MoveItemUp(param), param => param is MenuItemModel item && MenuManager.Items.IndexOf(item) > 0);
             MoveItemDownCommand = new RelayCommand(param => MoveItemDown(param), param => param is MenuItemModel item && MenuManager.Items.IndexOf(item) < MenuManager.Items.Count - 1);
+
+            SaveCommand = new RelayCommand(_ => Save());
+            LoadCommand = new RelayCommand(_ => Load());
         }
 
         private MenuManagerModel _menuManager = new MenuManagerModel();
@@ -34,7 +43,7 @@ namespace DinaMenuDesigner.ViewModels
             get => _menuManager;
             set => SetProperty(ref _menuManager, value);
         }
-        public MenuElementModel? SelectedElement 
+        public MenuElementModel? SelectedElement
         {
             get
             {
@@ -143,6 +152,34 @@ namespace DinaMenuDesigner.ViewModels
             SelectedItem = item;
             var index = MenuManager.Items.IndexOf(item);
             MenuManager.Items.Move(index, index + 1);
+        }
+
+        public RelayCommand SaveCommand { get; }
+        public RelayCommand LoadCommand { get; }
+
+        private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions { WriteIndented = true, Converters = { new ColorJsonConverter() } };
+        private void Save()
+        {
+            var filename = _fileDialogService.GetSaveFilePath("Fichiers JSON (*.json)|*.json");
+
+            if (filename == null)
+                return;
+
+            var jsonString = JsonSerializer.Serialize(MenuManager, _jsonOptions);
+            File.WriteAllText(filename, jsonString);
+        }
+        private void Load()
+        {
+            var filename = _fileDialogService.GetOpenFilePath("Fichiers JSON (*.json)|*.json");
+            
+            if (filename == null)
+                return;
+
+            var jsonString = File.ReadAllText(filename);
+            if (string.IsNullOrEmpty(jsonString))
+                return; // On devrait peut-être afficher un message à l'utilisateur
+
+            MenuManager = JsonSerializer.Deserialize<MenuManagerModel>(jsonString, _jsonOptions)!;
         }
 
     }

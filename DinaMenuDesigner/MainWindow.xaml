@@ -28,13 +28,21 @@
         <!-- Colonne gauche -->
         <Grid Grid.Column="0" Background="#1E1E1E">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Section Titres (ligne 0) -->
-            <Grid Grid.Row="0" Margin="4">
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Button Command="{Binding SaveCommand}"
+                        Content="Sauver"/>
+                <Button Command="{Binding LoadCommand}"
+                        Content="Charger"/>
+            </StackPanel>
+            
+            <!-- Section Titres (ligne 1) -->
+            <Grid Grid.Row="1" Margin="4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -63,14 +71,14 @@
             </Grid>
 
             <!-- Séparateur horizontal entre Titres et Items -->
-            <GridSplitter Grid.Row="1"
+            <GridSplitter Grid.Row="2"
                           Height="4"
                           HorizontalAlignment="Stretch"
                           Background="#444444"/>
 
 
-            <!-- Section Items (ligne 2) -->
-            <Grid Grid.Row="2" Margin="4">
+            <!-- Section Items (ligne 3) -->
+            <Grid Grid.Row="3" Margin="4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
