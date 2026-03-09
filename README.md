@@ -14,6 +14,8 @@ DinaMenuDesigner est une application WPF qui permet de concevoir visuellement le
 - Édition des propriétés (texte, position, couleur, police, ombre, etc.)
 - Sélecteur de couleur RGBA intégré
 - Support des alignements horizontaux et verticaux
+- Sauvegarde et chargement de projets en JSON
+- Génération de code C#
 
 ## Technologies
 
@@ -24,8 +26,6 @@ DinaMenuDesigner est une application WPF qui permet de concevoir visuellement le
 
 ## En développement
 
-- Sauvegarde et chargement de projets en JSON
-- Génération de code C#
 - Gestion des polices SpriteFonts MonoGame
 
 ## Prérequis
