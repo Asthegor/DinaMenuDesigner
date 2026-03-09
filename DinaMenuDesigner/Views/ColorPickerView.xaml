@@ -11,6 +11,9 @@
         <common:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
     </UserControl.Resources>
     <StackPanel>
+        <TextBlock Text="{Binding Label, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                   Foreground="#AAAAAA"
+                   Margin="0,0,0,6"/>
         <Rectangle x:Name="ColorViewer"
                    Height="30"
                    Fill="{Binding SelectedColor, Converter={StaticResource ColorToBrushConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>

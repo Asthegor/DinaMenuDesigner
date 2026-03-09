@@ -2,19 +2,24 @@
 using DinaMenuDesigner.Common;
 using DinaMenuDesigner.Models;
 using DinaMenuDesigner.Services;
+using DinaMenuDesigner.Views;
 
 using System.IO;
 using System.Text.Json;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DinaMenuDesigner.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
-        private IFileDialogService _fileDialogService;
-        public MainViewModel(IFileDialogService? fileDialogService = null)
+        private readonly IFileDialogService _fileDialogService;
+        private readonly IWindowService _windowService;
+
+        public MainViewModel(IFileDialogService? fileDialogService = null, IWindowService? windowService = null)
         {
             _fileDialogService = fileDialogService ?? new FileDialogService();
+            _windowService = windowService ?? new WindowService();
 
             MenuManager = new MenuManagerModel();
             SelectedTitle = null;
@@ -32,6 +37,8 @@ namespace DinaMenuDesigner.ViewModels
 
             SaveCommand = new RelayCommand(_ => Save());
             LoadCommand = new RelayCommand(_ => Load());
+
+            GenerateCommand = new RelayCommand(_ => GenerateCode());
         }
 
         private MenuManagerModel _menuManager = new MenuManagerModel();
@@ -182,5 +189,20 @@ namespace DinaMenuDesigner.ViewModels
             MenuManager = JsonSerializer.Deserialize<MenuManagerModel>(jsonString, _jsonOptions)!;
         }
 
+
+        public RelayCommand GenerateCommand { get; }
+
+        private void GenerateCode()
+        {
+            var generatedCode = GenerateCodeService.GenerateDeclaration(MenuManager);
+            _windowService.ShowCodePreview(generatedCode);
+        }
+
+        public string GeneratedCode
+        {
+            get => _generatedCode;
+            set => SetProperty(ref _generatedCode, value);
+        }
+        private string _generatedCode = string.Empty;
     }
 }

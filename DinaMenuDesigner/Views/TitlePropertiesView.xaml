@@ -33,8 +33,8 @@
                 <local:PropertyRowView Label="Police" Value="{Binding PlaceholderFont, Mode=TwoWay}"/>
                 <local:PropertyRowView Label="Taille Police" Value="{Binding FontSize, Mode=TwoWay}"/>
 
-                <local:ColorPickerView SelectedColor="{Binding Color, Mode=TwoWay}"/>
-                <!--<local:PropertyRowView Label="Couleur" Value="{Binding Color, Mode=TwoWay}"/>-->
+                <local:ColorPickerView Label="Couleur"
+                                       SelectedColor="{Binding Color, Mode=TwoWay}"/>
                 <local:PropertyRowView Label="ZOrder" Value="{Binding ZOrder, Mode=TwoWay}"/>
                 
 

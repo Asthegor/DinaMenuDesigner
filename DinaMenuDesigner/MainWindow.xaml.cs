@@ -28,8 +28,8 @@ namespace DinaMenuDesigner
             var deltaX = e.DeltaX / scale;
             var deltaY = e.DeltaY / scale;
 
-            model.PositionX = (float)Math.Clamp(model.PositionX + deltaX, 0, 1920);
-            model.PositionY = (float)Math.Clamp(model.PositionY + deltaY, 0, 1080);
+            model.PositionX = (int)Math.Clamp(model.PositionX + deltaX, 0, 1920);
+            model.PositionY = (int)Math.Clamp(model.PositionY + deltaY, 0, 1080);
 
         }
 

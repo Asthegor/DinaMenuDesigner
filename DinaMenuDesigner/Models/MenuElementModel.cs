@@ -36,7 +36,7 @@ namespace DinaMenuDesigner.Models
         }
         public float PositionX { get => _positionX; set => SetProperty(ref _positionX, value); }
         public float PositionY { get => _positionY; set => SetProperty(ref _positionY, value); }
-        public Color Color { get => _color; set => SetProperty(ref _color, value); }
+        public virtual Color Color { get => _color; set => SetProperty(ref _color, value); }
         public int ZOrder { get => _zOrder; set => SetProperty(ref _zOrder, value); }
         public bool Visible { get => _visible; set => SetProperty(ref _visible, value); }
         public string PlaceholderFont { get => _placeholderFont; set => SetProperty(ref _placeholderFont, value); }

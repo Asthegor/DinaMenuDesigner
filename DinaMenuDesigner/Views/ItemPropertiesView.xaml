@@ -7,6 +7,9 @@
              xmlns:common="clr-namespace:DinaMenuDesigner.Common"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <common:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -29,7 +32,8 @@
 
                 <local:PropertyRowView Label="Police" Value="{Binding PlaceholderFont, Mode=TwoWay}"/>
                 <local:PropertyRowView Label="Taille Police" Value="{Binding FontSize, Mode=TwoWay}"/>
-                <local:PropertyRowView Label="Couleur" Value="{Binding Color, Mode=TwoWay}"/>
+                <local:ColorPickerView Label="Couleur"
+                                       SelectedColor="{Binding Color, Mode=TwoWay}"/>
                 <local:PropertyRowView Label="ZOrder" Value="{Binding ZOrder, Mode=TwoWay}"/>
 
                 <CheckBox Content="Visible"
@@ -42,8 +46,9 @@
                             IsChecked="{Binding IsEnabled, Mode=TwoWay}"
                             Margin="0,0,0,6"/>
 
-                <local:PropertyRowView Label="Couleur lorsque désactivé"
-                                        Value="{Binding DisableColor, Mode=TwoWay}"/>
+                <local:ColorPickerView Label="Couleur si inactif"
+                                       SelectedColor="{Binding DisableColor, Mode=TwoWay}"
+                                       Visibility="{Binding Disable, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
                 <local:EnumComboBoxView Label="Alignement horizontal"
                                         EnumType="{x:Type common:DinaHorizontalAlignment}"

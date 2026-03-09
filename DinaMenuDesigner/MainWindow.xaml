@@ -39,6 +39,8 @@
                         Content="Sauver"/>
                 <Button Command="{Binding LoadCommand}"
                         Content="Charger"/>
+                <Button Command="{Binding GenerateCommand}"
+                        Content="Générer"/>
             </StackPanel>
             
             <!-- Section Titres (ligne 1) -->
@@ -155,7 +157,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <views:CanvasItemView ElementContent="{Binding Content}"
-                                                  ElementColor="{Binding Color}"
+                                                  ElementColor="{Binding DisplayColor}"
                                                   FontSize="{Binding FontSize}"
                                                   PositionX="{Binding PositionX}"
                                                   PositionY="{Binding PositionY}"

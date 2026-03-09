@@ -7,6 +7,8 @@ namespace DinaMenuDesigner.Common
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            // values[0] = SelectedElement
+            // values[1] = élément courant du DataTemplate
             return ReferenceEquals(values[0], values[1]);
         }
 

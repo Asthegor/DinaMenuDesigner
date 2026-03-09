@@ -24,12 +24,40 @@ namespace DinaMenuDesigner.Models
         private string? _deselectionMethodName;
         private string? _activationMethodName;
 
-        public Color DisableColor { get => _disableColor; set => SetProperty(ref _disableColor, value); }
-        public bool IsEnabled { get => _isEnabled; set => SetProperty(ref _isEnabled, value); }
+        public Color DisableColor
+        {
+            get => _disableColor;
+            set
+            {
+                SetProperty(ref _disableColor, value);
+                OnPropertyChanged(nameof(DisplayColor));
+            }
+        }
+        public override Color Color
+        {
+            get => base.Color;
+            set
+            {
+                base.Color = value;
+                OnPropertyChanged(nameof(DisplayColor));
+            }
+        }
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                SetProperty(ref _isEnabled, value);
+                OnPropertyChanged(nameof(DisplayColor));
+                OnPropertyChanged(nameof(Disable));
+            }
+        }
+        public bool Disable => !IsEnabled;
         public DinaHorizontalAlignment HorizontalAlignment { get => _horizontalAlignment; set => SetProperty(ref _horizontalAlignment, value); }
         public DinaVerticalAlignment VerticalAlignment { get => _verticalAlignment; set => SetProperty(ref _verticalAlignment, value); }
         public string? SelectionMethodName { get => _selectionMethodName; set => SetProperty(ref _selectionMethodName, value); }
         public string? DeselectionMethodName {  get => _deselectionMethodName; set => SetProperty(ref _deselectionMethodName, value); }
         public string? ActivationMethodName {  get => _activationMethodName; set => SetProperty(ref _activationMethodName, value); }
+        public Color DisplayColor => IsEnabled ? Color : DisableColor;
     }
 }
