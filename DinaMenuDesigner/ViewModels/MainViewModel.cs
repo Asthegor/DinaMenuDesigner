@@ -2,11 +2,9 @@
 using DinaMenuDesigner.Common;
 using DinaMenuDesigner.Models;
 using DinaMenuDesigner.Services;
-using DinaMenuDesigner.Views;
 
 using System.IO;
 using System.Text.Json;
-using System.Windows;
 using System.Windows.Input;
 
 namespace DinaMenuDesigner.ViewModels
@@ -204,5 +202,12 @@ namespace DinaMenuDesigner.ViewModels
             set => SetProperty(ref _generatedCode, value);
         }
         private string _generatedCode = string.Empty;
+
+        private bool _isGroupSelected;
+        public bool IsGroupSelected
+        {
+            get => _isGroupSelected;
+            set => SetProperty(ref _isGroupSelected, value);
+        }
     }
 }

@@ -29,6 +29,8 @@
 
                 <local:PropertyRowView Label="Position X" Value="{Binding PositionX, Mode=TwoWay}"/>
                 <local:PropertyRowView Label="Position Y" Value="{Binding PositionY, Mode=TwoWay}"/>
+                <local:PropertyRowView Label="Largeur" Value="{Binding Width, Mode=TwoWay}"/>
+                <local:PropertyRowView Label="Hauteur" Value="{Binding Height, Mode=TwoWay}"/>
 
                 <local:PropertyRowView Label="Police" Value="{Binding PlaceholderFont, Mode=TwoWay}"/>
                 <local:PropertyRowView Label="Taille Police" Value="{Binding FontSize, Mode=TwoWay}"/>

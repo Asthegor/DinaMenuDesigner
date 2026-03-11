@@ -15,6 +15,7 @@
         <common:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
         <common:IsSelectedConverter x:Key="IsSelectedConverter"/>
         <common:MenuElementToBoolConverter x:Key="MenuElementToBoolConverter"/>
+        <common:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -129,8 +130,11 @@
                                                   FontSize="{Binding FontSize}"
                                                   PositionX="{Binding PositionX}"
                                                   PositionY="{Binding PositionY}"
+                                                  ElementWidth="{Binding Width}"
+                                                  ElementHeight="{Binding Height}"
                                                   SelectionRequested="OnSelectionRequested"
-                                                  PositionChanged="OnPositionChanged">
+                                                  AbsolutePositionChanged="OnPositionChanged"
+                                                  SizeConstraintRequested="OnSizeConstraintRequested">
                                 <views:CanvasItemView.IsSelected>
                                     <MultiBinding Converter="{StaticResource IsSelectedConverter}">
                                         <Binding Path="DataContext.SelectedElement" 
@@ -148,7 +152,8 @@
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                 </ItemsControl>
-                <ItemsControl ItemsSource="{Binding MenuManager.Items}" Width="1920" Height="1080">
+                <ItemsControl ItemsSource="{Binding MenuManager.Items}" Width="1920" Height="1080"
+                              Visibility="{Binding MenuManager.IsNotGrouped, Converter={StaticResource BoolToVisibilityConverter}}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Canvas/>
@@ -161,8 +166,12 @@
                                                   FontSize="{Binding FontSize}"
                                                   PositionX="{Binding PositionX}"
                                                   PositionY="{Binding PositionY}"
+                                                  ElementWidth="{Binding Width}"
+                                                  ElementHeight="{Binding Height}"
+                                                  Scale="{Binding CanvasScale, RelativeSource={RelativeSource AncestorType=Window}}"
                                                   SelectionRequested="OnSelectionRequested"
-                                                  PositionChanged="OnPositionChanged">
+                                                  AbsolutePositionChanged="OnPositionChanged"
+                                                  SizeConstraintRequested="OnSizeConstraintRequested">
                                 <views:CanvasItemView.IsSelected>
                                     <MultiBinding Converter="{StaticResource IsSelectedConverter}">
                                         <Binding Path="DataContext.SelectedElement" 
@@ -180,6 +189,17 @@
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                 </ItemsControl>
+                <views:GroupedItemsView Canvas.Left="{Binding MenuManager.ItemsPositionX}"
+                                        Canvas.Top="{Binding MenuManager.ItemsPositionY}"
+                                        Items="{Binding MenuManager.Items}"
+                                        Direction="{Binding MenuManager.Direction}"
+                                        SpacingX="{Binding MenuManager.SpacingX}"
+                                        SpacingY="{Binding MenuManager.SpacingY}"
+                                        Visibility="{Binding MenuManager.GroupItems, Converter={StaticResource BoolToVisibilityConverter}}"
+                                        IsSelected="{Binding IsGroupSelected}"
+                                        ParentCanvas="{Binding ElementName=PreviewCanvas}"
+                                        AbsolutePositionChanged="OnGroupPositionChanged"
+                                        SelectionRequested="OnGroupSelectionRequested"/>
             </Canvas>
         </Viewbox>
 
@@ -233,6 +253,11 @@
                         <CheckBox Content="Centrer les items"
                                   Foreground="White"
                                   IsChecked="{Binding MenuManager.CenterItems, Mode=TwoWay}"
+                                  Margin="0,0,0,4"/>
+
+                        <CheckBox Content="Regrouper les items"
+                                  Foreground="White"
+                                  IsChecked="{Binding MenuManager.GroupItems, Mode=TwoWay}"
                                   Margin="0,0,0,4"/>
 
                     </StackPanel>

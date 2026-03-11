@@ -18,6 +18,8 @@ namespace DinaMenuDesigner.Models
         private string _content = string.Empty;
         private float _positionX;
         private float _positionY;
+        private float _width;
+        private float _height;
         private Color _color;
         private int _zOrder;
         private bool _visible;
@@ -36,6 +38,8 @@ namespace DinaMenuDesigner.Models
         }
         public float PositionX { get => _positionX; set => SetProperty(ref _positionX, value); }
         public float PositionY { get => _positionY; set => SetProperty(ref _positionY, value); }
+        public float Width { get => _width; set => SetProperty(ref _width, value); }
+        public float Height { get => _height; set => SetProperty(ref _height, value); }
         public virtual Color Color { get => _color; set => SetProperty(ref _color, value); }
         public int ZOrder { get => _zOrder; set => SetProperty(ref _zOrder, value); }
         public bool Visible { get => _visible; set => SetProperty(ref _visible, value); }

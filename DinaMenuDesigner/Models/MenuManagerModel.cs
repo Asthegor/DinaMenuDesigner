@@ -1,6 +1,7 @@
 ﻿using DinaMenuDesigner.Common;
 
 using System.Collections.ObjectModel;
+using System.Windows.Controls.Ribbon;
 
 namespace DinaMenuDesigner.Models
 {
@@ -15,6 +16,7 @@ namespace DinaMenuDesigner.Models
             ItemsPositionY = 300;
             CenterTitles = false;
             CenterItems = false;
+            GroupItems = false;
             Titles = [];
             Items = [];
         }
@@ -25,6 +27,7 @@ namespace DinaMenuDesigner.Models
         private float _itemsPositionY;
         private bool _centerTitles;
         private bool _centerItems;
+        private bool _groupItems;
         private ObservableCollection<TitleModel> _titles = [];
         private ObservableCollection<MenuItemModel> _items = [];
 
@@ -53,6 +56,16 @@ namespace DinaMenuDesigner.Models
         public float ItemsPositionY { get => _itemsPositionY; set => SetProperty(ref _itemsPositionY, value); }
         public bool CenterTitles { get => _centerTitles; set => SetProperty(ref _centerTitles, value); }
         public bool CenterItems { get => _centerItems; set => SetProperty(ref _centerItems, value); }
+        public bool GroupItems
+        {
+            get => _groupItems;
+            set
+            {
+                SetProperty(ref _groupItems, value);
+                OnPropertyChanged(nameof(IsNotGrouped));
+            }
+        }
+        public bool IsNotGrouped => !GroupItems;
         public ObservableCollection<TitleModel> Titles { get => _titles; set => SetProperty(ref _titles, value); }
         public ObservableCollection<MenuItemModel> Items { get => _items; set => SetProperty(ref _items, value); }
 

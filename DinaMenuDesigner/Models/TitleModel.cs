@@ -10,6 +10,8 @@ namespace DinaMenuDesigner.Models
             ShadowColor = Colors.Black;
             ShadowOffsetX = 0;
             ShadowOffsetY = 0;
+            Width = 250;
+            Height = 100;
         }
 
         private bool _hasShadow;

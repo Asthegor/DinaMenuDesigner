@@ -13,7 +13,9 @@
         <common:BoolToThicknessConverter x:Key="BoolToThicknessConverter"/>
     </UserControl.Resources>
     <Border BorderBrush="White"
-            BorderThickness="{Binding IsSelected, Converter={StaticResource BoolToThicknessConverter}, RelativeSource={RelativeSource AncestorType=UserControl}}">
+            BorderThickness="{Binding IsSelected, Converter={StaticResource BoolToThicknessConverter}, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            Width="{Binding ElementWidth, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            Height="{Binding ElementHeight, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}">
         <TextBlock Text="{Binding ElementContent, RelativeSource={RelativeSource AncestorType=UserControl}}"
                    Foreground="{Binding ElementColor, Converter={StaticResource ColorToBrushConverter}, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
     </Border>

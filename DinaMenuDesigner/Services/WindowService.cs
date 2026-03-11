@@ -12,6 +12,7 @@ namespace DinaMenuDesigner.Services
         {
             _codePreviewWindow ??= new CodePreviewWindow();
             _codePreviewWindow.Owner = Application.Current.MainWindow;
+            _codePreviewWindow.Closed += (s, e) => _codePreviewWindow = null;
             _codePreviewWindow.Code = code;
             _codePreviewWindow.Show();
             _codePreviewWindow.Activate();

@@ -30,6 +30,9 @@
                 <local:PropertyRowView Label="Position X" Value="{Binding PositionX, Mode=TwoWay}"/>
                 <local:PropertyRowView Label="Position Y" Value="{Binding PositionY, Mode=TwoWay}"/>
 
+                <local:PropertyRowView Label="Largeur" Value="{Binding Width, Mode=TwoWay}"/>
+                <local:PropertyRowView Label="Hauteur" Value="{Binding Height, Mode=TwoWay}"/>
+
                 <local:PropertyRowView Label="Police" Value="{Binding PlaceholderFont, Mode=TwoWay}"/>
                 <local:PropertyRowView Label="Taille Police" Value="{Binding FontSize, Mode=TwoWay}"/>
 
@@ -49,8 +52,8 @@
                           IsChecked="{Binding HasShadow, Mode=TwoWay}"
                           Margin="0,0,0,6"/>
 
-                <local:PropertyRowView Label="Couleur de l'ombre"
-                                       Value="{Binding ShadowColor, Mode=TwoWay}"
+                <local:ColorPickerView Label="Couleur de l'ombre"
+                                       SelectedColor="{Binding ShadowColor, Mode=TwoWay}"
                                        Visibility="{Binding HasShadow, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <local:PropertyRowView Label="Décalage ombre X"
                                        Value="{Binding ShadowOffsetX, Mode=TwoWay}"

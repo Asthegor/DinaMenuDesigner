@@ -16,14 +16,16 @@
                    Margin="0,0,0,6"/>
         <Rectangle x:Name="ColorViewer"
                    Height="30"
-                   Fill="{Binding SelectedColor, Converter={StaticResource ColorToBrushConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
-        <TextBlock Text="R" Foreground="#AAAAAA" Margin="0,0,0,2"/>
-        <Slider Minimum="0" Maximum="255" Value="{Binding R, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-        <TextBlock Text="G" Foreground="#AAAAAA" Margin="0,0,0,2"/>
-        <Slider Minimum="0" Maximum="255" Value="{Binding G, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-        <TextBlock Text="B" Foreground="#AAAAAA" Margin="0,0,0,2"/>
-        <Slider Minimum="0" Maximum="255" Value="{Binding B, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-        <TextBlock Text="A" Foreground="#AAAAAA" Margin="0,0,0,2"/>
-        <Slider Minimum="0" Maximum="255" Value="{Binding A, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                   Fill="{Binding SelectedColor, Converter={StaticResource ColorToBrushConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                   Margin="0,0,0,2"/>
+        <local:ColorSliderView Label="R"
+                               ColorValue="{Binding R, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        <local:ColorSliderView Label="G"
+                               ColorValue="{Binding G, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        <local:ColorSliderView Label="B"
+                               ColorValue="{Binding B, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        <local:ColorSliderView Label="A"
+                               ColorValue="{Binding A, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               Margin="0,0,0,2"/>
     </StackPanel>
 </UserControl>

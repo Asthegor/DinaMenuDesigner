@@ -13,6 +13,12 @@ namespace DinaMenuDesigner.Views
     public partial class CanvasItemView : UserControl
     {
         private Point? _dragStart;
+        private Point _itemStartPosition;
+        static CanvasItemView()
+        {
+            FontSizeProperty.OverrideMetadata(typeof(CanvasItemView),
+                new FrameworkPropertyMetadata((d, e) => ((CanvasItemView)d).EnforceMinimumSize()));
+        }
         public CanvasItemView()
         {
             InitializeComponent();
@@ -24,6 +30,7 @@ namespace DinaMenuDesigner.Views
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _dragStart = e.GetPosition(Parent as UIElement);
+            _itemStartPosition = new Point(PositionX, PositionY);
 
             var selectionRequestedEventArgs = new SelectionRequestedEventArgs()
             {
@@ -39,19 +46,14 @@ namespace DinaMenuDesigner.Views
             if (_dragStart == null)
                 return;
 
-            //var newPosition = e.GetPosition(this);
-            var newPosition = e.GetPosition(Parent as UIElement);
-            var offset = newPosition - _dragStart;
-
-            var positionChangedEventArgs = new PositionChangedEventArgs()
+            var current = e.GetPosition(Parent as UIElement);
+            var args = new AbsolutePositionChangedEventArgs()
             {
-                RoutedEvent = PositionChangedEvent,
-                DeltaX = offset.Value.X,
-                DeltaY = offset.Value.Y,
+                RoutedEvent = AbsolutePositionChangedEvent,
+                AbsoluteX = _itemStartPosition.X + (current.X - _dragStart!.Value.X) / Scale,
+                AbsoluteY = _itemStartPosition.Y + (current.Y - _dragStart!.Value.Y) / Scale,
             };
-            RaiseEvent(positionChangedEventArgs);
-
-            _dragStart = newPosition;
+            RaiseEvent(args);
         }
         private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -59,6 +61,13 @@ namespace DinaMenuDesigner.Views
             ReleaseMouseCapture();
         }
 
+        public event EventHandler<AbsolutePositionChangedEventArgs> AbsolutePositionChanged
+        {
+            add => AddHandler(AbsolutePositionChangedEvent, value);
+            remove => RemoveHandler(AbsolutePositionChangedEvent, value);
+        }
+        public static readonly RoutedEvent AbsolutePositionChangedEvent =
+            EventManager.RegisterRoutedEvent(nameof(AbsolutePositionChanged), RoutingStrategy.Bubble, typeof(EventHandler<AbsolutePositionChangedEventArgs>), typeof(CanvasItemView));
 
         public string ElementContent
         {
@@ -66,7 +75,8 @@ namespace DinaMenuDesigner.Views
             set => SetValue(ElementContentProperty, value);
         }
         public static readonly DependencyProperty ElementContentProperty =
-            DependencyProperty.Register(nameof(ElementContent), typeof(string), typeof(CanvasItemView), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(ElementContent), typeof(string), typeof(CanvasItemView),
+                                        new PropertyMetadata(string.Empty, (d, e) => ((CanvasItemView)d).EnforceMinimumSize()));
 
         public Color ElementColor
         {
@@ -111,6 +121,24 @@ namespace DinaMenuDesigner.Views
         public static readonly DependencyProperty PositionYProperty =
             DependencyProperty.Register(nameof(PositionY), typeof(double), typeof(CanvasItemView), new PropertyMetadata(0.0));
 
+        public double ElementWidth
+        {
+            get => (double)GetValue(ElementWidthProperty);
+            set => SetValue(ElementWidthProperty, value);
+        }
+        public static readonly DependencyProperty ElementWidthProperty =
+            DependencyProperty.Register(nameof(ElementWidth), typeof(double), typeof(CanvasItemView),
+                                        new PropertyMetadata(0.0, (d, e) => ((CanvasItemView)d).EnforceMinimumSize()));
+
+        public double ElementHeight
+        {
+            get => (double)GetValue(ElementHeightProperty);
+            set => SetValue(ElementHeightProperty, value);
+        }
+        public static readonly DependencyProperty ElementHeightProperty =
+            DependencyProperty.Register(nameof(ElementHeight), typeof(double), typeof(CanvasItemView),
+                                        new PropertyMetadata(0.0, (d, e) => ((CanvasItemView)d).EnforceMinimumSize()));
+
 
         public event EventHandler<SelectionRequestedEventArgs> SelectionRequested
         {
@@ -120,5 +148,44 @@ namespace DinaMenuDesigner.Views
         public static readonly RoutedEvent SelectionRequestedEvent =
             EventManager.RegisterRoutedEvent(nameof(SelectionRequested), RoutingStrategy.Bubble, typeof(EventHandler<SelectionRequestedEventArgs>), typeof(CanvasItemView));
 
+        private Size MeasureText()
+        {
+            var typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
+            var formattedText = new FormattedText(
+                ElementContent,
+                System.Globalization.CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                typeface,
+                FontSize,
+                Brushes.Black,
+                VisualTreeHelper.GetDpi(this).PixelsPerDip);
+            return new Size(formattedText.Width, formattedText.Height);
+        }
+        private void EnforceMinimumSize()
+        {
+            var size = MeasureText();
+            var args = new SizeConstraintRequestedEventArgs()
+            {
+                RoutedEvent = SizeConstraintRequestedEvent,
+                MinWidth = size.Width,
+                MinHeight = size.Height,
+            };
+            RaiseEvent(args);
+        }
+        public event EventHandler<SizeConstraintRequestedEventArgs> SizeConstraintRequested
+        {
+            add => AddHandler(SizeConstraintRequestedEvent, value);
+            remove => RemoveHandler(SizeConstraintRequestedEvent, value);
+        }
+        public static readonly RoutedEvent SizeConstraintRequestedEvent =
+            EventManager.RegisterRoutedEvent(nameof(SizeConstraintRequested), RoutingStrategy.Bubble, typeof(EventHandler<SizeConstraintRequestedEventArgs>), typeof(CanvasItemView));
+
+        public double Scale
+        {
+            get => (double)GetValue(ScaleProperty);
+            set => SetValue(ScaleProperty, value);
+        }
+        public static readonly DependencyProperty ScaleProperty =
+            DependencyProperty.Register(nameof(Scale), typeof(double), typeof(CanvasItemView), new PropertyMetadata(1.0));
     }
 }

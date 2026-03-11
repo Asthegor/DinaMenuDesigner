@@ -15,6 +15,8 @@ namespace DinaMenuDesigner.Models
             SelectionMethodName = null;
             DeselectionMethodName = null;
             ActivationMethodName = null;
+            Width = 100;
+            Height = 50;
         }
         private Color _disableColor;
         private bool _isEnabled;
